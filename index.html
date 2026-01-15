@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Command Center | Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-grid"></div>
+    <div class="main-interface">
+        <header>
+            <h1 class="neon-text">JAHAT DEVIL <span>PC STORE</span></h1>
+            <div class="stats-hud">
+                <div class="hud-box">
+                    <span class="hud-label">TOTAL LOOT VALUE</span>
+                    <span id="total-value" class="hud-value">$0.00</span>
+                </div>
+                <div class="hud-box warning-box">
+                    <span class="hud-label">CRITICAL ITEMS</span>
+                    <span id="alert-count" class="hud-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="control-panel">
+            <div class="input-group">
+                <input type="text" id="p-name" placeholder="ITEM_NAME">
+                <input type="number" id="p-qty" placeholder="QTY">
+                <input type="number" id="p-price" placeholder="CREDITS">
+                <button onclick="addItem()" class="rgb-btn">INITIALIZE</button>
+            </div>
+        </section>
+
+        <section class="data-grid">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>STOCK_LEVEL</th>
+                        <th>UNIT_COST</th>
+                        <th>TOTAL_VAL</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-body">
+                    </tbody>
+            </table>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
