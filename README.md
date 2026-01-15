@@ -22,7 +22,7 @@ Welcome to the **JAHAT DEVIL Command Center**. This is a high-performance invent
 
 ## 🚀 Live Demo
 You can access the live command center here:
-**[View Live Project](https://damndanial67.github.io/Jahat-Devil-PC-store/)**
+**[View Live Project]([https://damndanial67.github.io/Jahat-Devil-PC-store](https://damndanial67.github.io/Jahat-Devil-Peecee-Store/)/)**
 
 ## 🔧 Installation & Local Setup
 1. **Clone the repository:**
