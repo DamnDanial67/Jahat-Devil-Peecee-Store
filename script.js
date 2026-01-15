@@ -1,15 +1,29 @@
 let inventory = [];
 
-function addItem() {
-    // Get values from inputs
-    const name = document.getElementById('p-name').value;
-    const qty = parseInt(document.getElementById('p-qty').value);
-    const price = parseFloat(document.getElementById('p-price').value);
+// 1. LOAD DATA: This runs the moment the page opens
+window.onload = () => {
+    const savedData = localStorage.getItem('jahat_devil_data');
+    if (savedData) {
+        // Convert the saved string back into an array of objects
+        inventory = JSON.parse(savedData);
+        // Refresh the screen with the saved data
+        updateSystem(); 
+    }
+};
 
-    if (name && qty >= 0 && price >= 0) {
-        // CONCEPT: Objects
+// 2. ADD ITEM: Creates the product object
+function addItem() {
+    const nameInput = document.getElementById('p-name');
+    const qtyInput = document.getElementById('p-qty');
+    const priceInput = document.getElementById('p-price');
+
+    const name = nameInput.value;
+    const qty = parseInt(qtyInput.value);
+    const price = parseFloat(priceInput.value);
+
+    if (name && !isNaN(qty) && !isNaN(price)) {
         const product = {
-            id: Date.now(), // Unique ID based on time
+            id: Date.now(),
             name: name,
             qty: qty,
             price: price
@@ -17,16 +31,23 @@ function addItem() {
 
         inventory.push(product);
         updateSystem();
-        clearInputs();
+        
+        // Clear inputs for next item
+        nameInput.value = '';
+        qtyInput.value = '';
+        priceInput.value = '';
+    } else {
+        alert("Please fill all fields with valid numbers!");
     }
 }
 
+// 3. REMOVE ITEM: Deletes from array
 function removeItem(id) {
-    // Filter out the item with the matching ID
     inventory = inventory.filter(item => item.id !== id);
     updateSystem();
 }
 
+// 4. UPDATE SYSTEM: Handles UI and Saving to Memory
 function updateSystem() {
     const tbody = document.getElementById('inventory-body');
     tbody.innerHTML = '';
@@ -34,20 +55,18 @@ function updateSystem() {
     let totalValue = 0;
     let criticalItems = 0;
 
-    // CONCEPT: Loops
     inventory.forEach(item => {
-        // CONCEPT: Calculation
         const itemTotal = item.qty * item.price;
         totalValue += itemTotal;
 
-        // Check for low stock (Logic)
         const isLowStock = item.qty < 5;
         if (isLowStock) criticalItems++;
 
-        // Render Row
         const row = `
             <tr>
-                <td style="color: white; font-weight: bold;">${item.name.toUpperCase()}</td>
+                <td style="color: white; font-weight: bold; border-left: 3px solid ${isLowStock ? '#ff3333' : '#00f3ff'}">
+                    ${item.name.toUpperCase()}
+                </td>
                 <td>${item.qty}</td>
                 <td>$${item.price.toFixed(2)}</td>
                 <td>$${itemTotal.toFixed(2)}</td>
@@ -62,31 +81,10 @@ function updateSystem() {
         tbody.innerHTML += row;
     });
 
-    // Update HUD Stats
+    // Update the HUD displays
     document.getElementById('total-value').innerText = `$${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
     document.getElementById('alert-count').innerText = criticalItems;
-}
-// --- ADD THIS LINE HERE ---
-    saveToStorage(); 
 
-function clearInputs() {
-    document.getElementById('p-name').value = '';
-    document.getElementById('p-qty').value = '';
-    document.getElementById('p-price').value = '';
-}
-// Function to Save to Browser Memory
-function saveToStorage() {
+    // --- STICKY FEATURE: Save the current inventory to browser memory ---
     localStorage.setItem('jahat_devil_data', JSON.stringify(inventory));
 }
-
-// Function to Load from Browser Memory
-window.onload = () => {
-    const savedData = localStorage.getItem('jahat_devil_data');
-    if (savedData) {
-        inventory = JSON.parse(savedData);
-        updateSystem(); // This redraws the table with your saved items
-    }
-};
-
-// IMPORTANT: Go back to your updateSystem() function 
-// and add saveToStorage(); at the very end of it!
