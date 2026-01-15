@@ -66,9 +66,27 @@ function updateSystem() {
     document.getElementById('total-value').innerText = `$${totalValue.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
     document.getElementById('alert-count').innerText = criticalItems;
 }
+// --- ADD THIS LINE HERE ---
+    saveToStorage(); 
 
 function clearInputs() {
     document.getElementById('p-name').value = '';
     document.getElementById('p-qty').value = '';
     document.getElementById('p-price').value = '';
 }
+// Function to Save to Browser Memory
+function saveToStorage() {
+    localStorage.setItem('jahat_devil_data', JSON.stringify(inventory));
+}
+
+// Function to Load from Browser Memory
+window.onload = () => {
+    const savedData = localStorage.getItem('jahat_devil_data');
+    if (savedData) {
+        inventory = JSON.parse(savedData);
+        updateSystem(); // This redraws the table with your saved items
+    }
+};
+
+// IMPORTANT: Go back to your updateSystem() function 
+// and add saveToStorage(); at the very end of it!
